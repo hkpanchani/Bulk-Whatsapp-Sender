@@ -1,0 +1,30 @@
+[flake8]
+ignore =
+    E121,E123,E126,E226,E24,E704,W503,W504,  # these are ignored by default
+    E501,  # line too long
+    W291, #trailing whitespace
+    W293, #blank line contains whitespace
+    W391, #blank line at end of file
+    E231, #missing whitespace after ','
+    E303, #too many blank lines (2)
+    E722, #do not use bare 'except'
+    E302, #expected 2 blank lines, found 1
+    E251, #unexpected spaces around keyword / parameter equals
+    W292, #no newline at end of file
+    E711, #comparison to None should be 'if cond is not None:'
+    E502, #the backslash is redundant between brackets
+    E128, #continuation line under-indented for visual indent
+    E203, #whitespace before ':'
+    E261, #at least two spaces before inline comment
+exclude =
+    Scripts,
+    Lib,
+    .git,
+    __pycache__,
+    docs/source/conf.py,
+    old,
+    build,
+    dist
+per-file-ignores =
+    whatsArcCore.py: F403,F401
+    ; path/to/file.py: F841

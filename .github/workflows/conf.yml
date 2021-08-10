@@ -1,0 +1,84 @@
+name: Pipeline to Generate EXE
+on:
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    name: Test & Build Application 
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8.2
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8
+        pip install -r requirements.txt
+
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        # flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Build Exe with Auto-Py-To-EXE
+      run: |
+        pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "chromedriver.exe;." --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "whatsArc.py"
+    
+    - name: Rename App
+      run: |
+        cd dist && ren whatsArc "Bulk Whatsapp Sender" && cd ..
+
+    - name: Install NSIS
+      run: |
+        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+        scoop bucket add extras
+        scoop install nsis
+    
+    - name: Make Installer
+      run: |
+        makensis ${{ github.workspace }}\dist\compiler.nsi
+
+    - name: Upload EXE to github Workspace
+      if: success()
+      uses: actions/upload-artifact@v2
+      with:
+        name: App
+        path: ${{ github.workspace }}\dist\Bulk Whatsapp Sender_setup.exe
+
+  notify:
+    name: Notify Build in Telegram
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send Build Failed message to Telegram
+      uses: appleboy/telegram-action@master
+      if: failure()
+      with:
+        to: ${{ secrets.MESSAGEID }}
+        token: ${{ secrets.BOTTOKEN }}
+        message: |
+          Commit Message: ${{ github.event.head_commit.message }}
+          Commited Actor: ${{ github.actor }}
+          Build Info: https://github.com/${{github.repository}}/commit/${{github.sha}}/checks
+          Build Status: ${{ job.status }}
+
+    - name: send Application to Telegram 
+      uses: appleboy/telegram-action@master
+      if: success()
+      with:
+        to: ${{ secrets.MESSAGEID }}
+        token: ${{ secrets.BOTTOKEN }}
+        message: |
+          Commit Message: ${{ github.event.head_commit.message }}
+          Commited Actor: ${{ github.actor }}
+          Build Info: https://github.com/${{github.repository}}/commit/${{github.sha}}/checks
+          Build Status: ${{ job.status }}
