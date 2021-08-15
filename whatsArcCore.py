@@ -111,7 +111,7 @@ def whatsappLogin(chrome_path=args.chrome_driver_path):
     print("QR scanned")    
     try:
         WebDriverWait(browser, 600).until(EC.presence_of_element_located((By.XPATH, '//div[@data-asset-intro-image="true" or @data-asset-intro-image-light="true" or @data-asset-intro-image-dark="true"]')))
-        with open("wapi.js",'r') as script:
+        with open(pathToAppData+"\\wapi.js",'r') as script:
             browser.execute_script(script.read())
             print('script initialized')
             # time.sleep(180)
@@ -329,7 +329,7 @@ def checkMessageStatus():
 def waitForInternetConnection():
     try:
         response = urllib.request.urlopen('https://wa.encycode.com/whatsarc/wapi.js',timeout=5)
-        with open("wapi.js", "w") as f:
+        with open(pathToAppData+"\\wapi.js", "w") as f:
             f.write(response.read().decode('utf-8'))
         return True
     except Exception as e:

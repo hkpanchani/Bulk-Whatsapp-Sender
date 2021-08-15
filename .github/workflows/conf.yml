@@ -30,11 +30,7 @@ jobs:
 
     - name: Build Exe with Auto-Py-To-EXE
       run: |
-        pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "chromedriver.exe;." --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "whatsArc.py"
-    
-    - name: Rename App
-      run: |
-        cd dist && ren whatsArc "Bulk Whatsapp Sender" && cd ..
+        pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "chromedriver.exe;." --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "Bulk Whatsapp Sender.py"
 
     - name: Install NSIS
       run: |

@@ -4,7 +4,7 @@
   !define APPNAME "Bulk Whatsapp Sender" ; Also folder name as well btw
   !define RUNFILE "${APPNAME}.exe"
   !define VERSIONMAJOR 1    ; Only change on major release
-  !define VERSIONMINOR 0    ; TODO: Update version every time you compile
+  !define VERSIONMINOR 1    ; TODO: Update version every time you compile
   !define ICONFILE "myico.ico" ; Must be inside folder always
   !define COMPANYNAME "Bulk Whatsapp Sender"
   !define COMPANYURL "example.com"
