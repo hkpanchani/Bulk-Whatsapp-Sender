@@ -14,7 +14,7 @@ from pathlib import Path
 
 from datetime import datetime
 import time
-import os
+import os,ssl
 import argparse
 import pandas as pd
 import re
@@ -328,6 +328,8 @@ def checkMessageStatus():
 
 def waitForInternetConnection():
     try:
+        if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)):
+            ssl._create_default_https_context = ssl._create_unverified_context
         response = urllib.request.urlopen('https://wa.encycode.com/whatsarc/wapi.js',timeout=5)
         with open(pathToAppData+"\\wapi.js", "w") as f:
             f.write(response.read().decode('utf-8'))
