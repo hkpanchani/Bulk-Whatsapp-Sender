@@ -14,7 +14,8 @@ from pathlib import Path
 
 from datetime import datetime
 import time
-import os,ssl
+import os
+import ssl
 import argparse
 import pandas as pd
 import re
