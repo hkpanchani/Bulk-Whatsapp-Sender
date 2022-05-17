@@ -111,7 +111,7 @@ def whatsappLogin(chrome_path=args.chrome_driver_path):
     # browser.maximize_window()
     print("QR scanned")    
     try:
-        WebDriverWait(browser, 600).until(EC.presence_of_element_located((By.XPATH, '//div[@data-asset-intro-image="true" or @data-asset-intro-image-light="true" or @data-asset-intro-image-dark="true"]')))
+        WebDriverWait(browser, 600).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[4]/div/div/div[1]/span')))
         with open(pathToAppData+"\\wapi.js",'r') as script:
             browser.execute_script(script.read())
             print('script initialized')
@@ -155,9 +155,11 @@ def sendMedia(index,num,hasMessage=False):
                 finalMessage = formatMessage(finalMessage,'[VAR'+str(i+1)+']',variable[index])
             # print(encodedMedia)
             # print("window.WAPI.sendImage(`{0}`,'{1}@c.us',`{2}`,`{3}`)".format(encodedMedia,num,mediaName,message))
-            request = browser.execute_script("return window.WAPI.sendImage(`{0}`,'{1}@c.us',`{2}`,`{3}`)".format(encodedMedia,num,mediaName,finalMessage))
+            request = browser.execute_script("return WPP.chat.sendFileMessage('{0}@c.us',`{1}`,{{createChat:true,caption:`{3}`,filename:`{2}`}})".format(num,encodedMedia,mediaName,finalMessage))
         else:
-            request = browser.execute_script("return window.WAPI.sendImage(`{0}`,'{1}@c.us',`{2}`)".format(encodedMedia,num,mediaName))
+            request = browser.execute_script("return WPP.chat.sendFileMessage('{0}@c.us',`{1}`,{{createChat:true,filename:`{2}`}})".format(num,encodedMedia,mediaName))
+            
+            
 
         if request == None :
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Message sent successfully\n")
@@ -170,45 +172,7 @@ def sendMedia(index,num,hasMessage=False):
         nonWhatsappNumbers.append(num)
         return False
 
-def getImagefromUrl():
-    global linkImage
-    try:
-        filename = linkImage.split("/")[-1]
-        r = requests.get(linkImage, stream = True)
-        time.sleep(5)
-        if r.status_code == 200:
-            # Set decode_content value to True, otherwise the downloaded image file's size will be zero.
-            r.raw.decode_content = True
-            with open(filename,'wb') as f:
-                shutil.copyfileobj(r.raw, f)
-            encodeMedia(filename,True)
-            if os.path.exists(filename):
-                os.remove(filename)
-    except:
-        linkImage = ""
-    else:
-        print('Image Couldn\'t be retreived')
 
-def getLinkPreviewData():
-    global linkTitle,linkDescription,linkImage,hyperlink
-    grabber = LinkGrabber(
-        initial_timeout=10, maxsize=1048576, receive_timeout=5, chunk_size=1024,
-    )
-
-    content = grabber.get_content(hyperlink)
-    link = Link(hyperlink, content)
-
-    preview = LinkPreview(link, parser="lxml")
-
-    linkTitle = linkDescription = linkImage = ""
-
-    if preview.title != None:
-        linkTitle = preview.title        
-    if preview.description != None:
-        linkDescription = linkDescription
-    if preview.image != None:
-        linkImage = preview.image
-        getImagefromUrl()
 
 def formatMessage(input, pattern, replaceWith): 
     return input.replace(pattern, replaceWith) 
@@ -223,9 +187,9 @@ def sendOnlyMessage(index,num):
     if checkNumberStatus(num):
         # print("checknumbercalled")
         if hyperlink == None:
-            request = browser.execute_script("return window.WAPI.sendMessage('{0}@c.us',`{1}`)".format(num,finalMessage))
+            request = browser.execute_script("return WPP.chat.sendTextMessage('{0}@c.us',`{1}`,{{createChat: true, linkPreview:false}})".format(num,finalMessage),)
         else:
-            request = browser.execute_script("return window.WAPI.sendMessageWithThumb(`{0}`,`{1}`,`{2}`,`{3}`,`{4}`,'{5}@c.us')".format(linkImage,hyperlink,linkTitle,linkDescription,message,num))
+          request = browser.execute_script("return WPP.chat.sendTextMessage('{0}@c.us',`{1}`,{{createChat: true}})".format(num,finalMessage))
         if request:
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Message sent successfully\n")
             return True
@@ -239,40 +203,21 @@ def sendOnlyMessage(index,num):
 def checkNumberStatus(num):
     global message,whatsappNumbers,nonWhatsappNumbers
     # print("inside checknumberstatus")
-    promis = browser.execute_script("return window.Store.WapQuery.queryExist('{0}@c.us');".format(num))
-    print(json.loads(json.dumps(promis))['status']) # 200 OR 404
-    if json.loads(json.dumps(promis))['status'] == 200:
+    promis = browser.execute_script("return WPP.contact.queryExists('{0}@c.us');".format(num))
+    # print(json.loads(json.dumps(promis))['status']) # 200 OR 404
+    print(json.loads(json.dumps(promis))) # 200 OR 404
+    if json.loads(json.dumps(promis)) != None:
         logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Have whatesapp\n")
-        while True:
-            try:
-                browser.execute_script("return window.WAPI.getChat('{0}@c.us')".format(num))
-            except JavascriptException as e:
-                if "sendMessage" in str(e):
-                    browser.execute_script("return openChat('{0}');".format(num))
-                    time.sleep(3)
-                    logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" New Contact Number\n")
-                    break
-                else:
-                    logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" "+str(e)+"\n")
-                    return False
-                continue
-            break
-
         return True
-    if json.loads(json.dumps(promis))['status'] == 404:
-        logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" dosen't have whatesapp\n")
-        return False
     else :
-        logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" another ERROR\n")
         return False
 
 def filterWhatsappNumbers(num):
-    promis = browser.execute_script("return window.Store.WapQuery.queryExist('{0}@c.us');".format(num))
+    promis = browser.execute_script("return WPP.contact.queryExists('{0}@c.us');".format(num))
+    
     # print(json.loads(json.dumps(promis))['status']) # 200 OR 404
-    if json.loads(json.dumps(promis))['status'] == 200:
+    if json.loads(json.dumps(promis)) != None:
         return True
-    if json.loads(json.dumps(promis))['status'] == 404:
-        return False
     else :
         return False
 
