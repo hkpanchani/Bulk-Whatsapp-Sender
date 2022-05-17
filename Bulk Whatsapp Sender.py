@@ -73,9 +73,7 @@ class Worker(QtCore.QThread):
         contactNumber = wa.contactNumber
         
         rotateCounter = wa.rotateInterval
-        if wa.hyperlink != None:
-            wa.getLinkPreviewData()
-
+        
         if len(contactNumber) > 0:
             for i, number in enumerate(contactNumber):
                 if wa.isRotate:
