@@ -1,8 +1,5 @@
 name: Pipeline to Generate EXE
 on:  
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master

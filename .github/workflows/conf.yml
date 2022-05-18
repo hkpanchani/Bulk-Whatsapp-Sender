@@ -31,12 +31,6 @@ jobs:
     - name: Build Exe with Auto-Py-To-EXE
       run: |
         pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "chromedriver.exe;." --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "Bulk Whatsapp Sender.py"
-
-    - name: Install NSIS
-      run: |
-        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-        scoop bucket add extras
-        scoop install nsis
     
     - name: Make Installer
       run: |
