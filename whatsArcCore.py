@@ -153,15 +153,13 @@ def sendMedia(index,num,hasMessage=False):
             finalMessage = message
             for i, variable in enumerate(variables):
                 finalMessage = formatMessage(finalMessage,'[VAR'+str(i+1)+']',variable[index])
-            # print(encodedMedia)
-            # print("window.WAPI.sendImage(`{0}`,'{1}@c.us',`{2}`,`{3}`)".format(encodedMedia,num,mediaName,message))
             request = browser.execute_script("return WPP.chat.sendFileMessage('{0}@c.us',`{1}`,{{createChat:true,caption:`{3}`,filename:`{2}`}})".format(num,encodedMedia,mediaName,finalMessage))
+            
         else:
             request = browser.execute_script("return WPP.chat.sendFileMessage('{0}@c.us',`{1}`,{{createChat:true,filename:`{2}`}})".format(num,encodedMedia,mediaName))
             
             
-
-        if request == None :
+        if json.loads(json.dumps(request))['sendMsgResult']['_value'] == "OK" :
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Message sent successfully\n")
             return True
         else:
@@ -189,7 +187,7 @@ def sendOnlyMessage(index,num):
         if hyperlink == None:
             request = browser.execute_script("return WPP.chat.sendTextMessage('{0}@c.us',`{1}`,{{createChat: true, linkPreview:false}})".format(num,finalMessage),)
         else:
-          request = browser.execute_script("return WPP.chat.sendTextMessage('{0}@c.us',`{1}`,{{createChat: true}})".format(num,finalMessage))
+            request = browser.execute_script("return WPP.chat.sendTextMessage('{0}@c.us',`{1}`,{{createChat: true}})".format(num,finalMessage))
         if request:
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Message sent successfully\n")
             return True
@@ -276,7 +274,7 @@ def waitForInternetConnection():
     try:
         if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)):
             ssl._create_default_https_context = ssl._create_unverified_context
-        response = urllib.request.urlopen('https://wa.encycode.com/whatsarc/wapi.js',timeout=5)
+        response = urllib.request.urlopen('https://wa.encycode.com/whatsarc/wapi.js',timeout=10)
         with open(pathToAppData+"\\wapi.js", "w") as f:
             f.write(response.read().decode('utf-8'))
         return True
