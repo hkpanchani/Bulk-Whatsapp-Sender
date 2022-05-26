@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import chromedriver_autoinstaller
+
 
 from linkpreview import Link, LinkPreview, LinkGrabber
 import requests
@@ -51,7 +53,7 @@ isRotate = False
 rotateInterval = 100
 
 parser = argparse.ArgumentParser(description='PyWhatsapp Guide')
-parser.add_argument('--chrome_driver_path', action='store', type=str, default='./chromedriver.exe',help='chromedriver executable path (MAC and Windows path would be different)')
+# parser.add_argument('--chrome_driver_path', action='store', type=str, default='./chromedriver.exe',help='chromedriver executable path (MAC and Windows path would be different)')
 parser.add_argument('--message', action='store', type=str,default='', help='Enter the msg you want to send')
 parser.add_argument("--ignore-certificate-errors")
 parser.add_argument('--remove_cache', action='store', type=str, default='False', help='Remove Cache | Scan QR again or Not')
@@ -97,13 +99,15 @@ def importContacts(csvPath):
     variables.append(data.VAR4.tolist())
     variables.append(data.VAR5.tolist())
 
-def whatsappLogin(chrome_path=args.chrome_driver_path):
+def whatsappLogin():
     global wait, browser, whatsappLink,account
+
+    chromedriver_autoinstaller.install()
     chrome_options = Options()
     chrome_options.add_argument('--user-data-dir='+pathToAccountData+'\\'+account)
     chrome_options.set_capability('unhandledPromptBehavior', 'accept')
     # chrome_options.add_argument('headless')
-    browser = webdriver.Chrome(executable_path=chrome_path, options=chrome_options)
+    browser = webdriver.Chrome(options=chrome_options)
     wait = WebDriverWait(browser, 600)
     browser.get(whatsappLink)
     browser.set_window_position(0, 0)
