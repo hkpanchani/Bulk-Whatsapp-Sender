@@ -30,7 +30,7 @@ class ExcelCheck(QtCore.QThread):
         if csvPath is not None:
             print("Web Page Open")
             print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
-            wa.whatsappLogin(wa.args.chrome_driver_path)
+            wa.whatsappLogin()
             
             head, tail = os.path.split(r""+csvPath)
             name = []
@@ -279,7 +279,7 @@ class Main(QtWidgets.QMainWindow):
         print("Web Page Open")
     
         print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
-        wa.whatsappLogin(wa.args.chrome_driver_path)
+        wa.whatsappLogin()
         
         self.worker.updated[int].connect(self.updateValue)
         self.worker.updated[int,str].connect(self.updateValue)
@@ -313,7 +313,7 @@ class Main(QtWidgets.QMainWindow):
                 self.showAddAccountDialog()
             else:
                 wa.account = key
-                wa.whatsappLogin(wa.args.chrome_driver_path)
+                wa.whatsappLogin()
                 self.setComboBox()
 
     def showBrowserExitMessage(self,sleep=5):
