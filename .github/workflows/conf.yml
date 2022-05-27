@@ -30,7 +30,7 @@ jobs:
 
     - name: Build Exe with Auto-Py-To-EXE
       run: |
-        pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "chromedriver.exe;." --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "Bulk Whatsapp Sender.py"
+        pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "Bulk Whatsapp Sender.py"
     
     - name: Make Installer
       run: |
