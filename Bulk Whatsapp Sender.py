@@ -154,7 +154,7 @@ class Main(QtWidgets.QMainWindow):
     def open_csv_dialog(self):
         global csvPath
         filter = "Csv(*.csv)"
-        csvFile = QFileDialog.getOpenFileName(None,"Select CSV", os.getenv('USERPROFILE')+"\\Desktop",filter,"")
+        csvFile = QFileDialog.getOpenFileName(None,"Select CSV", wa.fileSelectorPath,filter,"")
         csvPath = csvFile[0]
         try:
             if csvPath != '':
@@ -170,7 +170,7 @@ class Main(QtWidgets.QMainWindow):
             filter = "All Files(*.*)"
         else:
             filter = "Custom Files(*.tiff *.pjp *.pjpeg *.jfif *.tif *.gif *.svg *.bmp *.png *.jpeg *.svgz *.jpg *.webp *.ico *.xbm *.dib *.m4v *.mp4 *.3gpp *.mov)"
-        mediaFile = QFileDialog.getOpenFileName(None, "Select Media", os.getenv('USERPROFILE')+"\\Desktop", filter)
+        mediaFile = QFileDialog.getOpenFileName(None, "Select Media", wa.fileSelectorPath, filter)
         mediaPath = mediaFile[0]
         self.ui.mediaInput.setText(mediaPath)
        

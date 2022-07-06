@@ -12,7 +12,7 @@ PyQt5==5.15.0
 PyQt5-sip==12.8.0
 python-dateutil==2.8.1
 PyInstaller==3.6
-python-magic-bin==0.4.14
+git+https://github.com/julian-r/python-magic.git
 pytz==2020.1
 requests==2.24.0
 selenium==3.141.0

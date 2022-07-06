@@ -17,6 +17,7 @@ from pathlib import Path
 from datetime import datetime
 import time
 import os
+import sys
 import ssl
 import argparse
 import pandas as pd
@@ -45,8 +46,16 @@ browser = None
 linkTitle = None
 linkDescription = None
 linkImage = None
-pathToAccountData = os.getenv('LOCALAPPDATA')+'\\whatsArc\\Accounts'
-pathToAppData = os.getenv('LOCALAPPDATA')+'\\whatsArc'
+if(sys.platform == "linux"):
+    osUser = os.getenv('USER')
+    pathToAccountData = "/home/" + osUser + "/.whatsArc/Accounts"
+    pathToAppData = "/home/" + osUser + "/.whatsArc"
+    fileSelectorPath = "/home/" + osUser
+else:
+    osUser = os.getenv('USERPROFILE')
+    pathToAccountData = os.getenv('LOCALAPPDATA')+'\\whatsArc\\Accounts'
+    pathToAppData = os.getenv('LOCALAPPDATA')+'\\whatsArc'
+    fileSelectorPath = osUser+"\\Desktop"
 account = "Default"
 accounts = []
 isRotate = False
@@ -173,8 +182,6 @@ def sendMedia(index,num,hasMessage=False):
         logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Wrong number\n")
         nonWhatsappNumbers.append(num)
         return False
-
-
 
 def formatMessage(input, pattern, replaceWith): 
     return input.replace(pattern, replaceWith) 
