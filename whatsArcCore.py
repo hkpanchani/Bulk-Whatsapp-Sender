@@ -113,7 +113,7 @@ def whatsappLogin():
 
     chromedriver_autoinstaller.install()
     chrome_options = Options()
-    chrome_options.add_argument('--user-data-dir='+pathToAccountData+'\\'+account)
+    chrome_options.add_argument(f'--user-data-dir={pathToAccountData}/{account}')
     chrome_options.set_capability('unhandledPromptBehavior', 'accept')
     # chrome_options.add_argument('headless')
     browser = webdriver.Chrome(options=chrome_options)
