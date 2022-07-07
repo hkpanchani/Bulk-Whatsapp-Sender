@@ -49,7 +49,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7.addWidget(self.rotateAccLabel)
         self.rotateAccSpin = QtWidgets.QSpinBox(self.centralwidget)
         self.rotateAccSpin.setEnabled(False)
-        self.rotateAccSpin.setMinimum(10)
+        self.rotateAccSpin.setMinimum(1)
         self.rotateAccSpin.setMaximum(999999999)
         self.rotateAccSpin.setProperty("value", 100)
         self.rotateAccSpin.setObjectName("rotateAccSpin")
