@@ -1,7 +1,8 @@
 import sys
 import os
+import pandas as pd
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QInputDialog, QFileDialog, QMessageBox, QButtonGroup
+from PyQt5.QtWidgets import QInputDialog, QFileDialog, QMessageBox, QButtonGroup, QTableWidgetItem
 from design import Ui_MainWindow
 import whatsArcCore as wa
 
@@ -156,14 +157,29 @@ class Main(QtWidgets.QMainWindow):
         filter = "Csv(*.csv)"
         csvFile = QFileDialog.getOpenFileName(None,"Select CSV", wa.fileSelectorPath,filter,"")
         csvPath = csvFile[0]
-        try:
-            if csvPath != '':
-                wa.importContacts(csvPath=csvPath)
-                self.ui.csvInput.setText(csvPath)
-        except:
-            self.show_error_dialog("Select Valid CSV File")
-            self.ui.csvInput.setText("")
-    
+        # try:
+        if csvPath != '':
+            data = pd.read_csv(csvPath).fillna("")
+            print(data)
+
+        self.ui.tableWidget.setRowCount(data.shape[0]) 
+
+        # Column count
+        self.ui.tableWidget.setColumnCount(data.shape[1]+1)
+        cdx = 0
+        for index, row in data.iterrows():
+            self.ui.tableWidget.setItem(index,cdx, QTableWidgetItem(''))
+            self.ui.tableWidget.setItem(index,cdx+1, QTableWidgetItem(str(row['name'])))
+            self.ui.tableWidget.setItem(index,cdx+2, QTableWidgetItem(str(row['mobile'])))
+            self.ui.tableWidget.setItem(index,cdx+3, QTableWidgetItem(str(row['VAR1'])))
+            self.ui.tableWidget.setItem(index,cdx+4, QTableWidgetItem(str(row['VAR2'])))
+            self.ui.tableWidget.setItem(index,cdx+5, QTableWidgetItem(str(row['VAR3'])))
+            self.ui.tableWidget.setItem(index,cdx+6, QTableWidgetItem(str(row['VAR4'])))
+            self.ui.tableWidget.setItem(index,cdx+7, QTableWidgetItem(str(row['VAR5'])))
+        # except:
+        #     self.show_error_dialog("Select Valid CSV File")
+        #     self.ui.csvInput.setText("")
+
     def open_media_dialog(self):
         global mediaPath,choice
         if choice == "document":
@@ -276,6 +292,7 @@ class Main(QtWidgets.QMainWindow):
             wa.encodeMedia(mediaPath)
         
         wa.initialiseLogFile()
+        self.parseTableData()
         print("Web Page Open")
     
         print("SCAN YOUR QR CODE FOR WHATSAPP WEB")
@@ -361,6 +378,7 @@ class Main(QtWidgets.QMainWindow):
             self.ui.selectAccount.addItem(acc)
 
     def initialiseWaFilter(self):
+        self.parseTableData()
         self.ui.statusLabel.setText("Filtering whatsapp numbers: ")
         self.ui.filterCsv.setEnabled(False)
         self.btn_active = True
@@ -406,7 +424,30 @@ class Main(QtWidgets.QMainWindow):
         while not wa.waitForInternetConnection():
             msg.exec_()
         # msg.close()
-            
+
+    def parseTableData(self):
+        rows = self.ui.tableWidget.rowCount()
+        columns = self.ui.tableWidget.columnCount()
+        columnList = ['status','name', 'mobile', 'VAR1', 'VAR2', 'VAR3', 'VAR4', 'VAR5']
+
+        data = pd.DataFrame(columns=['status','name', 'mobile', 'VAR1', 'VAR2', 'VAR3', 'VAR4', 'VAR5']) 
+
+        for i in range(rows):
+            for j in range(columns):
+                data.loc[i, columnList[j]] = self.ui.tableWidget.item(i, j).text()
+        
+        # Clear lists
+        wa.contactName = wa.contactNumber = wa.variables = []
+        
+        wa.contactName = data.name.tolist()
+        # contactName.pop(0)
+        wa.contactNumber = data.mobile.tolist()
+        # contactNumber.pop(0)
+        wa.variables.append(data.VAR1.tolist())
+        wa.variables.append(data.VAR2.tolist())
+        wa.variables.append(data.VAR3.tolist())
+        wa.variables.append(data.VAR4.tolist())
+        wa.variables.append(data.VAR5.tolist())
 
 
 if __name__ == '__main__':
@@ -414,4 +455,3 @@ if __name__ == '__main__':
     window = Main()
     window.show()
     sys.exit(app.exec_())
-

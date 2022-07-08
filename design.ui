@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>405</width>
-    <height>597</height>
+    <width>982</width>
+    <height>668</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../../.designer/backup/myico.ico</normaloff>../../../../../../.designer/backup/myico.ico</iconset>
+    <normaloff>myico.ico</normaloff>myico.ico</iconset>
   </property>
   <property name="windowOpacity">
    <double>1.000000000000000</double>
@@ -26,278 +26,330 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_10">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Select Account: </string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="selectAccount"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="deleteAccount">
-          <property name="text">
-           <string>Delete Account</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_7">
-        <item>
-         <widget class="QCheckBox" name="isRotateCB">
-          <property name="text">
-           <string>Rotate Account?</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="rotateAccLabel">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Rotate after x messages:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="rotateAccSpin">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>999999999</number>
-          </property>
-          <property name="value">
-           <number>100</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="csvLabel">
-          <property name="text">
-           <string>CSV:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="csvInput"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="csvBrowse">
-          <property name="text">
-           <string>Browse</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="filterCsv">
-          <property name="text">
-           <string>Filter Whatsapp Numbers</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="modelLabel">
-          <property name="text">
-           <string>Mode:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
           <item>
-           <widget class="QRadioButton" name="onlyMessage">
+           <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Only Message</string>
+             <string>Select Account: </string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="onlyMedia">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Only Media</string>
-            </property>
-           </widget>
+           <widget class="QComboBox" name="selectAccount"/>
           </item>
           <item>
-           <widget class="QRadioButton" name="attachDocument">
+           <widget class="QPushButton" name="deleteAccount">
             <property name="text">
-             <string>Document</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="messageWithMedia">
-            <property name="text">
-             <string>Message with Media</string>
+             <string>Delete Account</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QLabel" name="mediaLabel">
-          <property name="text">
-           <string>Media :</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="mediaInput"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="mediaBrowse">
-          <property name="text">
-           <string>Browse</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
           <item>
-           <widget class="QPlainTextEdit" name="messageInput">
-            <property name="enabled">
-             <bool>true</bool>
+           <widget class="QCheckBox" name="isRotateCB">
+            <property name="text">
+             <string>Rotate Account?</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="hasLink">
+           <widget class="QLabel" name="rotateAccLabel">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>Check if Message have hyperlink?</string>
+             <string>Rotate after x messages:</string>
             </property>
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <widget class="QSpinBox" name="rotateAccSpin">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>999999999</number>
+            </property>
+            <property name="value">
+             <number>100</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="csvLabel">
+            <property name="text">
+             <string>CSV:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="csvInput"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="csvBrowse">
+            <property name="text">
+             <string>Browse</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="filterCsv">
+            <property name="text">
+             <string>Filter Whatsapp Numbers</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="modelLabel">
+            <property name="text">
+             <string>Mode:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <widget class="QLabel" name="label">
+             <widget class="QRadioButton" name="onlyMessage">
               <property name="text">
-               <string>Link:</string>
+               <string>Only Message</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QLineEdit" name="hyperlinkInput"/>
+             <widget class="QRadioButton" name="onlyMedia">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Only Media</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="attachDocument">
+              <property name="text">
+               <string>Document</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="messageWithMedia">
+              <property name="text">
+               <string>Message with Media</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
          </layout>
         </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="mediaLabel">
+            <property name="text">
+             <string>Media :</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="mediaInput"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="mediaBrowse">
+            <property name="text">
+             <string>Browse</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QPlainTextEdit" name="messageInput">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="hasLink">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Check if Message have hyperlink?</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Link:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="hyperlinkInput"/>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Delay between every 5 messages (10 Recommended):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="intervalSpin">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="minimum">
+             <number>5</number>
+            </property>
+            <property name="value">
+             <number>10</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Delay between every 1 message (1 Recommended):</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="singleInterval">
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="statusLabel">
+            <property name="text">
+             <string>Status:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QProgressBar" name="progressBar">
+            <property name="value">
+             <number>0</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QPushButton" name="runScript">
+            <property name="text">
+             <string>Run the Script</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Delay between every 5 messages (10 Recommended):</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="intervalSpin">
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="minimum">
-           <number>5</number>
-          </property>
-          <property name="value">
-           <number>10</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Delay between every 1 message (1 Recommended):</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="singleInterval">
-          <property name="maximumSize">
-           <size>
-            <width>100</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="value">
-           <number>1</number>
-          </property>
+         <widget class="QTableWidget" name="tableWidget">
+          <column>
+           <property name="text">
+            <string>status</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>mobile</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VAR1</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VAR2</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VAR3</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VAR4</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>VAR5</string>
+           </property>
+          </column>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QPushButton" name="runScript">
-          <property name="text">
-           <string>Run the Script</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_9">
-      <item>
-       <widget class="QLabel" name="statusLabel">
-        <property name="text">
-         <string>Status:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QProgressBar" name="progressBar">
-        <property name="value">
-         <number>0</number>
-        </property>
-       </widget>
       </item>
      </layout>
     </item>
@@ -308,8 +360,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>405</width>
-     <height>21</height>
+     <width>982</width>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

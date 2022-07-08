@@ -24,7 +24,10 @@ exclude =
     docs/source/conf.py,
     old,
     build,
-    dist
+    dist,
+    bin,
+    lib,
+    temp.py
 per-file-ignores =
     whatsArcCore.py: F403,F401
     ; path/to/file.py: F841
