@@ -20,7 +20,6 @@ import os
 import sys
 import ssl
 import argparse
-import pandas as pd
 import re
 import base64
 import magic
@@ -86,27 +85,34 @@ def encodeMedia(mediaPath,thumb=False):
         else:
             encodedMedia = ("data:" + mime.from_file(mediaPath) + ";" + "base64," + base64.b64encode(mediaFile.read()).decode("utf-8"))
 
-def importContacts(csvPath):
-    print(csvPath)
-    global contactNumber, contactName, variables
+# def importContacts(csvPath):
+#     print(csvPath)
+#     global contactNumber, contactName, variables
 
-    # Create a dataframe from
-    # colnames = ['name', 'mobile','VAR1','VAR2','VAR3','VAR4','VAR5']
-    data = pd.read_csv(csvPath).fillna("")
-    print(data)
+#     # Create a dataframe from
+#     # colnames = ['name', 'mobile','VAR1','VAR2','VAR3','VAR4','VAR5']
+#     data = pd.read_csv(csvPath).fillna("")
+#     print(data)
 
-    # Clear lists
-    contactName = contactNumber = variables = []
+#     # Clear lists
+#     contactName = contactNumber = variables = []
     
-    contactName = data.name.tolist()
-    # contactName.pop(0)
-    contactNumber = list(map(str,data.mobile.tolist()))
-    # contactNumber.pop(0)
-    variables.append(data.VAR1.tolist())
-    variables.append(data.VAR2.tolist())
-    variables.append(data.VAR3.tolist())
-    variables.append(data.VAR4.tolist())
-    variables.append(data.VAR5.tolist())
+#     contactName = data.name.tolist()
+#     # contactName.pop(0)
+#     contactNumber = list(map(str,data.mobile.tolist()))
+#     # contactNumber.pop(0)
+#     variables.append(data.VAR1.tolist())
+#     variables.append(data.VAR2.tolist())
+#     variables.append(data.VAR3.tolist())
+#     variables.append(data.VAR4.tolist())
+#     variables.append(data.VAR5.tolist())
+
+#     prospect = {}
+#     prospect["name"] = contactName
+#     prospect["mobile"] = contactNumber
+#     prospect["variables"] = variables
+
+#     return prospect
 
 def whatsappLogin():
     global wait, browser, whatsappLink,account
