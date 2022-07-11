@@ -17,6 +17,7 @@ filteredCsvFileName = None
 # Filter whatsapp contacts
 class ExcelCheck(QtCore.QThread):
     updated = QtCore.pyqtSignal([int],[int,str])
+    statusUpdated = QtCore.pyqtSignal([int,str])
     running = False
 
     def __init__(self, parent=None):
@@ -43,7 +44,9 @@ class ExcelCheck(QtCore.QThread):
                         print(contactName[x]+" have whatsapp")
                         name.append(contactName[x])
                         mobile.append(contactNumber[x])
+                        self.statusUpdated[int,str].emit(int(x),str("send!"))
                     else:
+                        self.statusUpdated[int,str].emit(int(x),str("Does not have whatsapp!"))
                         print(contactName[x]+" does not have whatsapp")
 
                     self.progPercent = x/len(contactNumber)*100
@@ -60,6 +63,7 @@ class ExcelCheck(QtCore.QThread):
 
 class Worker(QtCore.QThread):
     updated = QtCore.pyqtSignal([int],[int,str])
+    statusUpdated = QtCore.pyqtSignal([int,str])
     running = False
 
     def __init__(self, interval=5, singleInterval=0, localInterval=5, parent=None):
@@ -96,8 +100,9 @@ class Worker(QtCore.QThread):
                 retry = True
                 while retry is True:
                     try:
-                        wa.sender(i,number)
+                        status = wa.sender(i,number)
                         retry = False
+                        self.statusUpdated[int,str].emit(int(i),str(status))
                     except Exception as e:
                         print(e)
                         wa.time.sleep(30)
@@ -299,6 +304,7 @@ class Main(QtWidgets.QMainWindow):
         wa.whatsappLogin()
         
         self.worker.updated[int].connect(self.updateValue)
+        self.worker.statusUpdated[int,str].connect(self.tableUiUpdate)
         self.worker.updated[int,str].connect(self.updateValue)
         self.worker.start()
         
@@ -385,6 +391,7 @@ class Main(QtWidgets.QMainWindow):
         self.tmr = ExcelCheck(self)
         self.tmr.updated[int].connect(self.updateValue)
         self.tmr.updated[int,str].connect(self.updateValue)
+        self.tmr.statusUpdated[int,str].connect(self.tableUiUpdate)
         self.tmr.start()
 
     def updateValue(self, data, mode=None):
@@ -413,6 +420,9 @@ class Main(QtWidgets.QMainWindow):
             print("====================================")
             wa.failed = [x for x in wa.failed if x not in wa.success]
             print("Failed {}, to: {}".format(len(wa.failed), wa.failed))
+
+    def tableUiUpdate(self, statusIndex=None, status=None):
+        self.ui.tableWidget.setItem(statusIndex,0, QTableWidgetItem(status))
 
     def fetchUpdatedAPI(self):
         print("fetchAPI function called")
