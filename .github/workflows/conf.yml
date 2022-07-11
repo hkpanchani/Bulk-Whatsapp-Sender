@@ -1,7 +1,7 @@
 name: Pipeline to Generate EXE
 on:
   push:
-    branches: [ release ]
+    branches: [ test ]
 
 jobs:
   build:
@@ -30,7 +30,7 @@ jobs:
 
     - name: Build Exe with Auto-Py-To-EXE
       run: |
-        pyinstaller --noconfirm --onedir --noconsole --icon "myico.ico" --log-level "INFO" --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "Bulk Whatsapp Sender.py"
+        pyinstaller --noconfirm --onedir --icon "myico.ico" --log-level "INFO" --add-data "design.py;." --add-data "myico.ico;." --add-data "wapi.js;." --add-data "whatsArcCore.py;." -w "Bulk Whatsapp Sender.py"
     
     - name: Make Installer
       run: |
