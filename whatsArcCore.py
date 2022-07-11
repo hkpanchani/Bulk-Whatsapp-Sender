@@ -131,7 +131,7 @@ def whatsappLogin():
     print("QR scanned")    
     try:
         WebDriverWait(browser, 600).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[4]/div/div/div[1]/span')))
-        with open(pathToAppData+"\\wapi.js",'r') as script:
+        with open(f'{pathToAppData}/wapi.js','r') as script:
             browser.execute_script(script.read())
             print('script initialized')
             # time.sleep(180)
