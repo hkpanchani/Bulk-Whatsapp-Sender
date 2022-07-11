@@ -164,6 +164,7 @@ class Main(QtWidgets.QMainWindow):
         csvPath = csvFile[0]
         # try:
         if csvPath != '':
+            self.ui.csvInput.setText(csvPath)
             data = pd.read_csv(csvPath).fillna("")
             print(data)
 
