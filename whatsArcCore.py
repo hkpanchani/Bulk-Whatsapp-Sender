@@ -131,7 +131,7 @@ def whatsappLogin():
     print("QR scanned")    
     try:
         WebDriverWait(browser, 600).until(EC.presence_of_element_located((By.XPATH, '//*[@id="app"]/div/div/div[4]/div/div/div[1]/span')))
-        with open(pathToAppData+"\\wapi.js",'r') as script:
+        with open(f'{pathToAppData}/wapi.js','r') as script:
             browser.execute_script(script.read())
             print('script initialized')
             # time.sleep(180)
@@ -145,25 +145,33 @@ def sender(index,number):
     global choice,success,failed,hyperlink,isRotate,rotateInterval,browser
 
     if choice == "onlyMessage":
-        if sendOnlyMessage(index,number):
-            success.append("{0} - {1}".format(contactName[index],number))
-        else:
+        if status := sendOnlyMessage(index,number):
             failed.append("{0} - {1}".format(contactName[index],number))
+            return status
+        else:
+            success.append("{0} - {1}".format(contactName[index],number))
+            return 'sent!'
     elif choice == "onlyMedia":
-        if sendMedia(index,number):
-            success.append("{0} - {1}".format(contactName[index],number))
-        else:
+        if status := sendMedia(index,number):
             failed.append("{0} - {1}".format(contactName[index],number))
+            return status
+        else:
+            success.append("{0} - {1}".format(contactName[index],number))
+            return 'sent!'
     elif choice == "document":
-        if sendMedia(index,number):
-            success.append("{0} - {1}".format(contactName[index],number))
-        else:
+        if status := sendMedia(index,number):
             failed.append("{0} - {1}".format(contactName[index],number))
+            return status
+        else:
+            success.append("{0} - {1}".format(contactName[index],number))
+            return 'sent!'
     elif choice == "messageWithMedia":
-        if sendMedia(index,number,hasMessage=True):
-            success.append("{0} - {1}".format(contactName[index],number))
-        else:
+        if status := sendMedia(index,number,hasMessage=True):
             failed.append("{0} - {1}".format(contactName[index],number))
+            return status
+        else:
+            success.append("{0} - {1}".format(contactName[index],number))
+            return 'sent!'
             
 def sendMedia(index,num,hasMessage=False):
     global message,encodedMedia,mediaName
@@ -180,14 +188,14 @@ def sendMedia(index,num,hasMessage=False):
             
         if json.loads(json.dumps(request))['sendMsgResult']['_value'] == "OK" :
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Message sent successfully\n")
-            return True
+            return False
         else:
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Big problem with sending message.\n")
-            return False
+            return "failed!"
     else:
         logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Wrong number\n")
         nonWhatsappNumbers.append(num)
-        return False
+        return "Don't have Whatsapp number"
 
 def formatMessage(input, pattern, replaceWith): 
     return input.replace(pattern, replaceWith) 
@@ -207,13 +215,13 @@ def sendOnlyMessage(index,num):
             request = browser.execute_script("return WPP.chat.sendTextMessage('{0}@c.us',`{1}`,{{createChat: true}})".format(num,finalMessage))
         if request:
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Message sent successfully\n")
-            return True
+            return False
         else:
             logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Big problem with sending message.\n")
-            return False
+            return "failed"
     else:
         logFile.write(datetime.now().strftime("%d/%m/%Y %H:%M:%S - ")+num+" Wrong number\n")
-        return False
+        return "Don't have Whatsapp number"
 
 def checkNumberStatus(num):
     global message,whatsappNumbers,nonWhatsappNumbers
@@ -238,10 +246,10 @@ def filterWhatsappNumbers(num):
 
 def initialiseLogFile():
     global logFile
-    if not os.path.exists(pathToAppData+"\\logs"):
-        os.makedirs(pathToAppData+"\\logs")
+    if not os.path.exists(f'{pathToAppData}/logs'):
+        os.makedirs(f'{pathToAppData}/logs')
     logFileName = "Log-"+datetime.now().strftime("%Y%m%d%H%M%S")+".txt"
-    logFile = open(Path(pathToAppData+'\\logs')/logFileName,"a+",encoding='utf8')
+    logFile = open(Path(f'{pathToAppData}/logs')/logFileName,"a+",encoding='utf8')
 
 def getAccounts():
     global pathToAccountData,accounts
@@ -254,9 +262,9 @@ def getAccounts():
 
 def deleteAccount():
     global pathToAccountData,account
-    if(os.path.isdir(pathToAccountData+'\\'+account)):
-        shutil.rmtree(pathToAccountData+'\\'+account)
-    if(not os.path.exists(pathToAccountData+'\\'+account)):
+    if(os.path.isdir(f'{pathToAccountData}/{account}')):
+        shutil.rmtree(f'{pathToAccountData}/{account}')
+    if(not os.path.exists(f'{pathToAccountData}/{account}')):
         return True
     else:
         return False
@@ -292,7 +300,7 @@ def waitForInternetConnection():
         if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)):
             ssl._create_default_https_context = ssl._create_unverified_context
         response = urllib.request.urlopen('https://wa.encycode.com/whatsarc/wapi.js',timeout=10)
-        with open(pathToAppData+"\\wapi.js", "w") as f:
+        with open(f'{pathToAppData}/wapi.js', "w") as f:
             f.write(response.read().decode('utf-8'))
         return True
     except Exception as e:
