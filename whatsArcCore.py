@@ -246,10 +246,10 @@ def filterWhatsappNumbers(num):
 
 def initialiseLogFile():
     global logFile
-    if not os.path.exists(pathToAppData+"\\logs"):
-        os.makedirs(pathToAppData+"\\logs")
+    if not os.path.exists(f'{pathToAppData}/logs'):
+        os.makedirs(f'{pathToAppData}/logs')
     logFileName = "Log-"+datetime.now().strftime("%Y%m%d%H%M%S")+".txt"
-    logFile = open(Path(pathToAppData+'\\logs')/logFileName,"a+",encoding='utf8')
+    logFile = open(Path(f'{pathToAppData}/logs')/logFileName,"a+",encoding='utf8')
 
 def getAccounts():
     global pathToAccountData,accounts
@@ -300,7 +300,7 @@ def waitForInternetConnection():
         if (not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None)):
             ssl._create_default_https_context = ssl._create_unverified_context
         response = urllib.request.urlopen('https://wa.encycode.com/whatsarc/wapi.js',timeout=10)
-        with open(pathToAppData+"\\wapi.js", "w") as f:
+        with open(f'{pathToAppData}/wapi.js', "w") as f:
             f.write(response.read().decode('utf-8'))
         return True
     except Exception as e:
